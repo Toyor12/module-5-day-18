@@ -20,9 +20,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test
-    working_dir: /app/shopflow
+    working_dir: /app/standalone/src
     volumes:
-      - ./shopflow:/app/shopflow
+      - ./standalone:/app/standalone
     environment:
       POSTGRES_HOST: db
     depends_on:
@@ -30,7 +30,7 @@ services:
         condition: service_healthy
     profiles:
       - test
-    command: bash -c "uv sync --dev && uv run pytest tests/ -v"
+    command: bash -c "cd /app/standalone && uv sync --dev && uv run pytest tests/ -v"
 
 volumes:
   pgdata:
